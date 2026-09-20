@@ -38,6 +38,42 @@ export interface OptimizationResult {
   finalValue: number
   iterations: number
   converged: boolean
+  convergenceReason?: string
+}
+
+// ---------------- 批量试算 ----------------
+
+export type BatchItemStatus = 'pending' | 'running' | 'success' | 'failed'
+
+export interface BatchItem {
+  index: number
+  params: OptimizationParams
+  status: BatchItemStatus
+  finalPoint?: [number, number]
+  finalValue?: number
+  iterations?: number
+  converged?: boolean
+  convergenceReason?: string
+  error?: string
+  durationMs?: number
+}
+
+export interface BatchSummary {
+  total: number
+  succeeded: number
+  failed: number
+  converged: number
+}
+
+export interface BatchTask {
+  id: string
+  status: 'running' | 'completed'
+  createdAt: number
+  finishedAt: number | null
+  fingerprint: string
+  items: BatchItem[]
+  summary: BatchSummary
+  existed?: boolean
 }
 
 export const TEST_FUNCTIONS: TestFunction[] = [
