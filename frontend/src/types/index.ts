@@ -40,6 +40,29 @@ export interface OptimizationResult {
   converged: boolean
 }
 
+export interface BatchItemResult {
+  key: string
+  status: 'ok' | 'error'
+  params: OptimizationParams
+  finalPoint?: [number, number]
+  finalValue?: number
+  iterations?: number
+  converged?: boolean
+  error?: string
+}
+
+export interface BatchRunMeta {
+  submittedAt: number
+  total: number
+  deduplicated: number
+  succeeded: number
+  failed: number
+}
+
+export interface BatchRunResponse extends BatchRunMeta {
+  results: BatchItemResult[]
+}
+
 export const TEST_FUNCTIONS: TestFunction[] = [
   { id: 'rosenbrock', name: 'Rosenbrock 香蕉函数', formula: 'f=(1-x)²+100(y-x²)²', xRange: [-2, 2], yRange: [-1, 3] },
   { id: 'himmelblau', name: 'Himmelblau函数', formula: 'f=(x²+y-11)²+(x+y²-7)²', xRange: [-6, 6], yRange: [-6, 6] },
